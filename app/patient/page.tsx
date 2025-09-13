@@ -1,10 +1,23 @@
 "use client";
 import { useState } from "react";
 
+interface Token {
+  number: number;
+  status: string;
+}
+
+interface Patient {
+  name: string;
+  phone: string;
+  age: number;
+  gender: string;
+  token: Token;
+}
+
 export default function AppointmentForm() {
   const [phone, setPhone] = useState(""); // start empty
   const [error, setError] = useState("");
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState<Patient | null>(null);
   const [waitTime, setWaitTime] = useState<string | null>(null);
   const [nextToken, setNextToken] = useState<number | null>(null);
   const [currentToken, setCurrentToken] = useState<number | null>(null);
@@ -18,7 +31,7 @@ export default function AppointmentForm() {
 
     try {
       // ✅ "database" of patients
-      const patients: Record<string, any> = {
+      const patients: Record<string, Patient> = {
         "8019114694": {
           name: "Raghu Varma",
           phone: "8019114694",

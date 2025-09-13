@@ -4,16 +4,16 @@ import { prisma } from "@/lib/prisma";
 // GET /api/patients/[phone]
 export async function GET(
   req: Request,
-  { params }: { params: { phone: string } }
+  { params }: { params: Promise<{ phone: string }> }
 ) {
   try {
-    const { phone } = params;
+    const { phone } = await params;
 
     // 1. Find patient by phone
     const patient = await prisma.patient.findUnique({
       where: { phone },
       include: {
-        tokens: {
+        token: {
           orderBy: { createdAt: "desc" },
           take: 1, // get latest token
         },
@@ -24,7 +24,7 @@ export async function GET(
       return NextResponse.json({ error: "Patient not found" }, { status: 404 });
     }
 
-    const token = patient.tokens[0];
+    const token = patient.token[0];
 
     return NextResponse.json({
       patient: { name: patient.name, phone: patient.phone },

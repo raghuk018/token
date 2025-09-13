@@ -18,6 +18,7 @@ export async function POST(req: Request) {
         number: Math.floor(Math.random() * 100) + 1,
         status: "Waiting",
         patientId: patient.id,
+        scheduledAt: new Date(),
       },
     });
 

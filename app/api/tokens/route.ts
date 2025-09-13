@@ -18,7 +18,11 @@ export async function POST(req: Request) {
     const newTokenNumber = last ? last.number + 1 : 1;
 
     const token = await prisma.token.create({
-      data: { number: newTokenNumber, patientId },
+      data: { 
+        number: newTokenNumber, 
+        patientId,
+        scheduledAt: new Date(),
+      },
     });
 
     return NextResponse.json(token, { status: 201 });
