@@ -9,6 +9,11 @@ export async function GET(
   try {
     const { phone } = await params;
 
+    // Skip database operations during build
+    if (process.env.NODE_ENV === 'production' && !process.env.DATABASE_URL) {
+      return NextResponse.json({ error: "Database not configured" }, { status: 500 });
+    }
+
     // 1. Find patient by phone
     const patient = await prisma.patient.findUnique({
       where: { phone },
