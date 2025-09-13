@@ -9,7 +9,7 @@ export async function GET(
   try {
     const { phone } = await params;
 
-    // Skip database operations during build
+    // Skip database operations during build if no DATABASE_URL
     if (process.env.NODE_ENV === 'production' && !process.env.DATABASE_URL) {
       return NextResponse.json({ error: "Database not configured" }, { status: 500 });
     }
